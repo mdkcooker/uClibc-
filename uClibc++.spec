@@ -16,6 +16,7 @@ Patch1:		uClibc++-0.2.4-wrapper-env-variables.patch
 Patch2:		uClibc++-0.2.4-dont-force-stripping-during-linking.patch
 Patch3:		uClibc++-0.2.4-fix-good-output-of-valarraytest.patch
 Requires:	%{libdev} = %{EVRD}
+BuildRequires:	stdc++-static-devel uClibc-devel
 
 %description
 uClibc++ is a C++ standard library targeted towards the embedded
