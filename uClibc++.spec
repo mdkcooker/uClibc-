@@ -1,4 +1,6 @@
 %define	uclibc_cxx	uclibc-g++
+%define	libname	%mklibname %{name} %{version}
+%define	libdev	%mklibname %{name} -d
 
 Summary:	A C library optimized for size useful for embedded applications
 Name:		uClibc++
@@ -33,7 +35,6 @@ storage, then using glibc may make more sense. unless, for
 example, that 12 terabytes will be network attached storage and
 you plan to burn linux into the system's firmware...
 
-%define	libname	%mklibname %{name} %{version}
 %package -n	%{libname}
 Summary:	A C++ standard library for uClibc
 Group:		System/Libraries
@@ -56,7 +57,6 @@ storage, then using glibc may make more sense. unless, for
 example, that 12 terabytes will be network attached storage and
 you plan to burn linux into the system's firmware...
 
-%define	libdev	%mklibname %{name} -d
 %package -n	%{libdev}
 Summary:	Development files & libraries for uClibc
 Group:		Development/C
