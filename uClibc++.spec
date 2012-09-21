@@ -2,7 +2,7 @@
 %define	libname	%mklibname %{name} %{version}
 %define	libdev	%mklibname %{name} -d
 
-Summary:	A C library optimized for size useful for embedded applications
+Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
 Release:	1
@@ -18,52 +18,31 @@ Patch3:		uClibc++-0.2.4-fix-good-output-of-valarraytest.patch
 Requires:	%{libdev} = %{EVRD}
 
 %description
-uClibc (pronounced yew-see-lib-see) is a c library for developing
-embedded linux systems. it is much smaller than the gnu c library,
-but nearly all applications supported by glibc also work perfectly
-with uclibc. porting applications from glibc to uclibc typically
-involves just recompiling the source code. uclibc even supports
-shared libraries and threading. it currently runs on standard
-linux and  mmu-less (also known as uclinux) systems with support
-for alpha, arm, cris, i386, i960, h8300, m68k, mips/mipsel,
-powerpc, sh, sparc, and v850 processors.
-
-if you are building an embedded linux system and you find that
-glibc is eating up too much space, you should consider using
-uclibc. if you are building a huge fileserver with 12 terabytes of
-storage, then using glibc may make more sense. unless, for
-example, that 12 terabytes will be network attached storage and
-you plan to burn linux into the system's firmware...
+uClibc++ is a C++ standard library targeted towards the embedded
+systems/software market. As such it may purposefully lack features
+which you might normally expect to find in a full fledged C++ standard
+library. The library will focus on space savings as opposed to performance.
 
 %package -n	%{libname}
 Summary:	A C++ standard library for uClibc
 Group:		System/Libraries
 
 %description -n	%{libname}
-uClibc (pronounced yew-see-lib-see) is a c library for developing
-embedded linux systems. it is much smaller than the gnu c library,
-but nearly all applications supported by glibc also work perfectly
-with uclibc. porting applications from glibc to uclibc typically
-involves just recompiling the source code. uclibc even supports
-shared libraries and threading. it currently runs on standard
-linux and  mmu-less (also known as uclinux) systems with support
-for alpha, arm, cris, i386, i960, h8300, m68k, mips/mipsel,
-powerpc, sh, sparc, and v850 processors.
-
-if you are building an embedded linux system and you find that
-glibc is eating up too much space, you should consider using
-uclibc. if you are building a huge fileserver with 12 terabytes of
-storage, then using glibc may make more sense. unless, for
-example, that 12 terabytes will be network attached storage and
-you plan to burn linux into the system's firmware...
+uClibc++ is a C++ standard library targeted towards the embedded
+systems/software market. As such it may purposefully lack features
+which you might normally expect to find in a full fledged C++ standard
+library. The library will focus on space savings as opposed to performance.
 
 %package -n	%{libdev}
-Summary:	Development files & libraries for uClibc
+Summary:	Development files & libraries for uClibc++
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
 
 %description -n	%{libdev}
-Small libc for building embedded applications.
+uClibc++ is a C++ standard library targeted towards the embedded
+systems/software market. As such it may purposefully lack features
+which you might normally expect to find in a full fledged C++ standard
+library. The library will focus on space savings as opposed to performance.
 
 %prep
 %setup -q
