@@ -5,7 +5,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	1
+Release:	2
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://uclibc.org/
@@ -38,6 +38,10 @@ library. The library will focus on space savings as opposed to performance.
 Summary:	Development files & libraries for uClibc++
 Group:		Development/C
 Requires:	%{libname} = %{EVRD}
+%if %{with uclibc}
+Requires:	uclibc-%{libname} = %{EVRD}
+%endif
+Provides:	%{name}-devel = %{EVRD}
 
 %description -n	%{libdev}
 uClibc++ is a C++ standard library targeted towards the embedded
