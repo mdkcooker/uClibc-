@@ -54,7 +54,9 @@ library. The library will focus on space savings as opposed to performance.
 %patch0 -p1 -b .no_warn_once~
 %patch1 -p1 -b .gcc_envvars~
 %patch2 -p1 -b .nostrip~
+%ifarch x86_64
 %patch3 -p1 -b .valtest~
+%endif
 cp %{SOURCE1} .config
 
 # using 'rpm --eval' here for multilib purposes..
