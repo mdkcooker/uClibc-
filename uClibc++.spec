@@ -5,7 +5,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	2
+Release:	1
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://uclibc.org/
@@ -66,7 +66,7 @@ export C_INCLUDE_PATH="\$(rpm --eval %%{uclibc_root}%%{_includedir}):\$(gcc -pri
 # have to pass the -rpath option to the linker as well
 export LD_RUN_PATH="\$(rpm --eval %%{uclibc_root}/%%{_lib}:%%{uclibc_root}%%{_libdir})"
 export LIBRARY_PATH="\$LD_RUN_PATH"
-exec g++ -muclibc -I%{uclibc_root}%{_includedir} -I%{uclibc_root}%{_includedir}/c++ -Wl,-rpath="\$LD_RUN_PATH" -nodefaultlibs -DGCC_HASCLASSVISIBILITY "\$@"  -lc -luClibc++ -lgcc -lgcc_eh
+exec g++ -muclibc -I%{uclibc_root}%{_includedir} -I%{uclibc_root}%{_includedir}/c++ -Wl,-rpath="\$LD_RUN_PATH" -Wl,-nostdlib -nodefaultlibs -DGCC_HASCLASSVISIBILITY "\$@"  -lc -luClibc++ -lgcc -lgcc_eh
 EOF
 chmod +x %{uclibc_cxx}
 
