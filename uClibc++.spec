@@ -5,7 +5,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	1
+Release:	2
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://uclibc.org/
@@ -87,14 +87,14 @@ export PATH=$PWD:$PATH
 %install
 %makeinstall_std
 
-install -m755 %{uclibc_cxx} -D %{buildroot}%{uclibc_root}%{_bindir}/%{uclibc_cxx}
+install -m755 %{uclibc_cxx} -D %{buildroot}%{_bindir}/%{uclibc_cxx}
 install -m644 %{name}.macros -D %{buildroot}%{_sysconfdir}/rpm/macros.d/%{name}.macros
 
 rm -f %{buildroot}%{uclibc_root}/bin/g++-uc
 
 
 %files
-%{uclibc_root}%{_bindir}/%{uclibc_cxx}
+%{_bindir}/%{uclibc_cxx}
 %{_sysconfdir}/rpm/macros.d/%{name}.macros
 
 %files -n %{libname}
