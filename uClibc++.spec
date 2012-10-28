@@ -1,4 +1,3 @@
-%define	uclibc_cxx	uclibc-g++
 %define	libname	%mklibname %{name} %{version}
 %define	libdev	%mklibname %{name} -d
 
@@ -16,7 +15,7 @@ Patch1:		uClibc++-0.2.4-wrapper-env-variables.patch
 Patch2:		uClibc++-0.2.4-dont-force-stripping-during-linking.patch
 Patch3:		uClibc++-0.2.4-fix-good-output-of-valarraytest.patch
 Requires:	%{libdev} = %{EVRD}
-BuildRequires:	stdc++-static-devel uClibc-devel
+BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-16
 
 %description
 uClibc++ is a C++ standard library targeted towards the embedded
@@ -72,11 +71,6 @@ exec g++ -muclibc -I%{uclibc_root}%{_includedir} -I%{uclibc_root}%{_includedir}/
 EOF
 chmod +x %{uclibc_cxx}
 
-cat > %{name}.macros << EOF
-%%uclibc_cxx		%{uclibc_cxx}
-%%uclibc_cxxflags	%%{uclibc_cflags}
-EOF
-
 %build
 yes "" | %make oldconfig
 export PATH=$PWD:$PATH
@@ -90,14 +84,12 @@ export PATH=$PWD:$PATH
 %makeinstall_std
 
 install -m755 %{uclibc_cxx} -D %{buildroot}%{_bindir}/%{uclibc_cxx}
-install -m644 %{name}.macros -D %{buildroot}%{_sysconfdir}/rpm/macros.d/%{name}.macros
 
 rm -f %{buildroot}%{uclibc_root}/bin/g++-uc
 
 
 %files
 %{_bindir}/%{uclibc_cxx}
-%{_sysconfdir}/rpm/macros.d/%{name}.macros
 
 %files -n %{libname}
 %{uclibc_root}/%{_lib}/libuClibc++-%{version}.so
@@ -108,4 +100,3 @@ rm -f %{buildroot}%{uclibc_root}/bin/g++-uc
 %{uclibc_root}/%{_lib}/libuClibc++.so
 %dir %{uclibc_root}%{_includedir}/c++
 %{uclibc_root}%{_includedir}/c++/*
-
