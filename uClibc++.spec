@@ -77,7 +77,7 @@ export PATH=$PWD:$PATH
 %make CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags}" BUILD_EXTRA_LIBRARIES="%{ldflags} -Wl,-O2" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
 
 # skip test as the test suite will compare float values which has different precission on cpus..
-%ifarch %{ix86}
+%ifnarch %{ix86}
 %check
 export PATH=$PWD:$PATH
 %make check VERBOSE=2 CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags}" BUILD_EXTRA_LIBRARIES="%{ldflags} -Wl,-O2" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
