@@ -56,7 +56,7 @@ library. The library will focus on space savings as opposed to performance.
 %ifarch x86_64
 %patch3 -p1 -b .valtest~
 %endif
-cp %{SOURCE1} .config
+sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 
 # using 'rpm --eval' here for multilib purposes..
 #TODO: figure out binutils --sysroot + multilib in binutils package?
