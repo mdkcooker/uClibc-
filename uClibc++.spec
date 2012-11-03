@@ -4,7 +4,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	3
+Release:	4
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://uclibc.org/
@@ -14,7 +14,6 @@ Patch0:		uClibc++-0.2.4-drop-dead-linker-flags.patch
 Patch1:		uClibc++-0.2.4-wrapper-env-variables.patch
 Patch2:		uClibc++-0.2.4-dont-force-stripping-during-linking.patch
 Patch3:		uClibc++-0.2.4-fix-good-output-of-valarraytest.patch
-Requires:	%{libdev} = %{EVRD}
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -41,6 +40,7 @@ Requires:	%{libname} = %{EVRD}
 Requires:	uclibc-%{libname} = %{EVRD}
 %endif
 Provides:	%{name}-devel = %{EVRD}
+%rename		%{name}
 
 %description -n	%{libdev}
 uClibc++ is a C++ standard library targeted towards the embedded
@@ -91,14 +91,12 @@ install -m755 %{uclibc_cxx} -D %{buildroot}%{_bindir}/%{uclibc_cxx}
 rm -f %{buildroot}%{uclibc_root}/bin/g++-uc
 
 
-%files
-%{_bindir}/%{uclibc_cxx}
-
 %files -n %{libname}
 %{uclibc_root}/%{_lib}/libuClibc++-%{version}.so
 %{uclibc_root}/%{_lib}/libuClibc++.so.*
 
 %files -n %{libdev}
+%{_bindir}/%{uclibc_cxx}
 %{uclibc_root}/%{_lib}/libuClibc++.a
 %{uclibc_root}/%{_lib}/libuClibc++.so
 %dir %{uclibc_root}%{_includedir}/c++
