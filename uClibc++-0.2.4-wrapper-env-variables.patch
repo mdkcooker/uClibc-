@@ -1,0 +1,20 @@
+--- uClibc++-0.2.4/bin/Makefile.gcc_envvars~	2012-05-25 23:15:31.000000000 +0200
++++ uClibc++-0.2.4/bin/Makefile	2012-09-21 01:29:42.139385911 +0200
+@@ -15,6 +15,10 @@ install:
+ $(WRAPPER): Makefile
+ 	echo '#!/bin/sh' > $@
+ 	echo '' >> $@
++	echo 'export C_INCLUDE_PATH="$$(rpm --eval %{uclibc_root}%{_includedir}):$$(gcc -print-search-dirs|grep install:|cut -d\  -f2)include"'  >> $@
++	echo 'export LD_RUN_PATH="$$(rpm --eval %{uclibc_root}/%{_lib}:%{uclibc_root}%{_libdir})"' >> $@
++	echo 'export LIBRARY_PATH="$$LD_RUN_PATH"' >> $@
++	echo '' >> $@
+ 	echo 'WRAPPER_INCLUDEDIR="$${WRAPPER_INCLUDEDIR:=-I$(UCLIBCXX_RUNTIME_INCLUDEDIR)}"' >> $@
+ 	echo 'WRAPPER_LIBDIR="$${WRAPPER_LIBDIR:=-L$(UCLIBCXX_RUNTIME_LIBDIR)}"' >> $@
+ 	echo '' >> $@
+@@ -45,5 +49,5 @@ endif
+ ifeq ($(DODEBUG),y)
+ 	echo 'echo $(CXX) $(GEN_CFLAGS) $(GEN_CXXFLAGS) $(EH_CXXFLAGS) $$WRAPPER_INCLUDEDIR $$WRAPPER_OPTIONS' >> $@
+ endif
+-	echo 'exec $(CXX) $(GEN_CFLAGS) $(GEN_CXXFLAGS) $(EH_CXXFLAGS) $$WRAPPER_INCLUDEDIR $$WRAPPER_OPTIONS' >> $@
++	echo 'exec $(CXX) $(GEN_CFLAGS) $(GEN_CXXFLAGS) $(EH_CXXFLAGS) -muclibc -Wl,-rpath=$$LD_RUN_PATH $$WRAPPER_INCLUDEDIR $$WRAPPER_OPTIONS' >> $@
+ 	chmod 755 $@
