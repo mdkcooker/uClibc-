@@ -4,7 +4,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	4
+Release:	5
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://uclibc.org/
