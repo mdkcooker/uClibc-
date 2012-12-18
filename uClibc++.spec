@@ -74,13 +74,13 @@ chmod +x %{uclibc_cxx}
 %build
 yes "" | %make oldconfig
 export PATH=$PWD:$PATH
-%make CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags}" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
+%make CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
 
 # skip test as the test suite will compare float values which has different precission on cpus..
 %ifnarch %{ix86}
 %check
 export PATH=$PWD:$PATH
-%make check VERBOSE=2 CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags}" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
+%make check VERBOSE=2 CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
 %endif
 
 %install
