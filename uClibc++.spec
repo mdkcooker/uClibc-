@@ -4,7 +4,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	5
+Release:	6
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://uclibc.org/
@@ -22,27 +22,26 @@ systems/software market. As such it may purposefully lack features
 which you might normally expect to find in a full fledged C++ standard
 library. The library will focus on space savings as opposed to performance.
 
-%package -n	%{libname}
+%package -n	uclibc-%{libname}
 Summary:	A C++ standard library for uClibc
 Group:		System/Libraries
+%rename		%{libname}
 
-%description -n	%{libname}
+%description -n	uclibc-%{libname}
 uClibc++ is a C++ standard library targeted towards the embedded
 systems/software market. As such it may purposefully lack features
 which you might normally expect to find in a full fledged C++ standard
 library. The library will focus on space savings as opposed to performance.
 
-%package -n	%{libdev}
+%package -n	uclibc-%{libdev}
 Summary:	Development files & libraries for uClibc++
 Group:		Development/C
-Requires:	%{libname} = %{EVRD}
-%if %{with uclibc}
 Requires:	uclibc-%{libname} = %{EVRD}
-%endif
 Provides:	%{name}-devel = %{EVRD}
 %rename		%{name}
+%rename		%{libdev}
 
-%description -n	%{libdev}
+%description -n	uclibc-%{libdev}
 uClibc++ is a C++ standard library targeted towards the embedded
 systems/software market. As such it may purposefully lack features
 which you might normally expect to find in a full fledged C++ standard
@@ -91,11 +90,11 @@ install -m755 %{uclibc_cxx} -D %{buildroot}%{_bindir}/%{uclibc_cxx}
 rm -f %{buildroot}%{uclibc_root}/bin/g++-uc
 
 
-%files -n %{libname}
+%files -n uclibc-%{libname}
 %{uclibc_root}/%{_lib}/libuClibc++-%{version}.so
 %{uclibc_root}/%{_lib}/libuClibc++.so.*
 
-%files -n %{libdev}
+%files -n uclibc-%{libdev}
 %{_bindir}/%{uclibc_cxx}
 %{uclibc_root}/%{_lib}/libuClibc++.a
 %{uclibc_root}/%{_lib}/libuClibc++.so
