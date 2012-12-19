@@ -87,8 +87,8 @@
 +	$(RM) $@
 +	cat format.lds > $@
 +	$(OUTPUT_FORMAT) >> $@
-+	echo "GROUP ( $(PREFIX)$(UCLIBCXX_DEVEL_LIBDIR)/libc.so )" >> $@
-+	echo "GROUP ( $(PREFIX)$(UCLIBCXX_RUNTIME_LIBDIR)/$(SHARED_MAJORNAME) )" >> $@
++	echo "GROUP ( $(PREFIX)$(UCLIBCXX_DEVEL_LIBDIR)libc.so )" >> $@
++	echo "GROUP ( $(PREFIX)$(UCLIBCXX_RUNTIME_LIBDIR)$(SHARED_MAJORNAME) )" >> $@
 +	echo "INPUT ( -lgcc )" >> $@
 +	echo "INPUT ( AS_NEEDED ( -lgcc_eh ) )" >> $@
  
