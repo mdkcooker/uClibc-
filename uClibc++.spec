@@ -14,6 +14,7 @@ Patch0:		uClibc++-0.2.4-drop-dead-linker-flags.patch
 Patch1:		uClibc++-0.2.4-wrapper-env-variables.patch
 Patch2:		uClibc++-0.2.4-dont-force-stripping-during-linking.patch
 Patch3:		uClibc++-0.2.4-fix-good-output-of-valarraytest.patch
+Patch4:		uClibc++-0.2.4-devel-prefix.patch
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -55,6 +56,7 @@ library. The library will focus on space savings as opposed to performance.
 %ifarch x86_64
 %patch3 -p1 -b .valtest~
 %endif
+%patch4 -p1 -b .devel~
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 
 # using 'rpm --eval' here for multilib purposes..
@@ -66,7 +68,7 @@ export C_INCLUDE_PATH="\$(rpm --eval %%{uclibc_root}%%{_includedir}):\$(gcc -pri
 # have to pass the -rpath option to the linker as well
 export LD_RUN_PATH="\$(rpm --eval %%{uclibc_root}/%%{_lib}:%%{uclibc_root}%%{_libdir})"
 export LIBRARY_PATH="\$LD_RUN_PATH"
-exec g++ -muclibc -I%{uclibc_root}%{_includedir} -I%{uclibc_root}%{_includedir}/c++ -Wl,-rpath="\$LD_RUN_PATH" -Wl,-nostdlib -nodefaultlibs -DGCC_HASCLASSVISIBILITY "\$@"  -lc -luClibc++ -lgcc -lgcc_eh
+exec g++ -muclibc -I%{uclibc_root}%{_includedir} -I%{uclibc_root}%{_includedir}/c++ -Wl,-rpath="\$LD_RUN_PATH" -Wl,-nostdlib -nodefaultlibs -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
 EOF
 chmod +x %{uclibc_cxx}
 
@@ -96,7 +98,7 @@ rm -f %{buildroot}%{uclibc_root}/bin/g++-uc
 
 %files -n uclibc-%{libdev}
 %{_bindir}/%{uclibc_cxx}
-%{uclibc_root}/%{_lib}/libuClibc++.a
-%{uclibc_root}/%{_lib}/libuClibc++.so
+%{uclibc_root}%{_libdir}/libuClibc++.a
+%{uclibc_root}%{_libdir}/libuClibc++.so
 %dir %{uclibc_root}%{_includedir}/c++
 %{uclibc_root}%{_includedir}/c++/*
