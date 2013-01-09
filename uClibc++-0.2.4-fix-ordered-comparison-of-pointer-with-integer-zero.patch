@@ -1,0 +1,11 @@
+--- uClibc++-0.2.4/include/string.ptr_cmp~	2013-01-09 00:57:09.119246220 +0100
++++ uClibc++-0.2.4/include/string	2013-01-09 00:57:16.806344382 +0100
+@@ -82,7 +82,7 @@ public:
+ 		if(n == npos){
+ 			__throw_out_of_range();
+ 		}
+-		if(s > 0){
++		if(s != 0){
+ 			resize(n);
+ 			Tr::copy(vector<Ch, A>::data, s, vector<Ch, A>::elements);
+ 		}

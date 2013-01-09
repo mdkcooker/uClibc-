@@ -16,6 +16,7 @@ Patch2:		uClibc++-0.2.4-dont-force-stripping-during-linking.patch
 Patch3:		uClibc++-0.2.4-fix-good-output-of-valarraytest.patch
 Patch4:		uClibc++-0.2.4-devel-prefix.patch
 Patch5:		uClibc++-0.2.4-string-getline-noskipws-fix.patch
+Patch6:		uClibc++-0.2.4-fix-ordered-comparison-of-pointer-with-integer-zero.patch
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -58,7 +59,8 @@ library. The library will focus on space savings as opposed to performance.
 %patch3 -p1 -b .valtest~
 %endif
 %patch4 -p1 -b .devel~
-%patch5 -p1 -b .gl_noskipws"
+%patch5 -p1 -b .gl_noskipws~
+%patch6 -p1 -b .ptr_cmp~
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 
 # using 'rpm --eval' here for multilib purposes..
