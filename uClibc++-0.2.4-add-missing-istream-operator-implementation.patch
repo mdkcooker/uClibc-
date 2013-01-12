@@ -1,0 +1,17 @@
+--- uClibc++-0.2.4/include/istream~	2012-05-25 23:15:31.000000000 +0200
++++ uClibc++-0.2.4/include/istream	2013-01-12 20:34:27.634200725 +0100
+@@ -555,6 +555,14 @@ namespace std{
+ 	}
+ 
+ 	template <class charT, class traits> _UCXXEXPORT basic_istream<charT,traits>&
++		basic_istream<charT,traits>::operator>>(ios_base& (*pf)(ios_base&))
++	{
++		sentry(*this);
++		pf(*this);
++		return *this;
++	}
++
++	template <class charT, class traits> _UCXXEXPORT basic_istream<charT,traits>&
+ 		ws(basic_istream<charT,traits>& is)
+ 	{
+ 		__skipws(is);
