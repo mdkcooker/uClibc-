@@ -85,7 +85,9 @@ export PATH="$PWD:$PATH"
 %ifnarch %{ix86}
 %check
 export PATH="$PWD:$PATH"
-%make check VERBOSE=2 CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
+mkdir -p test
+sed -e "s#%{uclibc_root}/%{_lib}/libuClibc++.so#$PWD/src/libuClibc++.so#g" src/libuClibc++.so > test/libuClibc++.so
+%make check VERBOSE=2 CC="%{uclibc_cc}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../test"
 %endif
 
 %install
