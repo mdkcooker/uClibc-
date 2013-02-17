@@ -18,6 +18,7 @@ Patch4:		uClibc++-0.2.4-devel-prefix.patch
 Patch5:		uClibc++-0.2.4-string-getline-noskipws-fix.patch
 Patch6:		uClibc++-0.2.4-fix-ordered-comparison-of-pointer-with-integer-zero.patch
 Patch7:		uClibc++-0.2.4-add-missing-istream-operator-implementation.patch
+Patch8:		arm-eabi_fix.patch
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -63,6 +64,7 @@ library. The library will focus on space savings as opposed to performance.
 %patch5 -p1 -b .gl_noskipws~
 %patch6 -p1 -b .ptr_cmp~
 %patch7 -p1 -b .istream_op~
+%patch8 -p1 -b .arm_eabi
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 
 # using 'rpm --eval' here for multilib purposes..
