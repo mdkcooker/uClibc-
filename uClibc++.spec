@@ -7,7 +7,7 @@ Version:	0.2.4
 Release:	8
 License:	LGPLv2.1
 Group:		System/Libraries
-URL:		http://uclibc.org/
+URL:		http://cxx.uclibc.org/
 Source0:	http://cxx.uclibc.org/src/%{name}-%{version}.tar.xz
 Source1:	uClibc++-0.2.4-config
 Patch0:		uClibc++-0.2.4-drop-dead-linker-flags.patch
