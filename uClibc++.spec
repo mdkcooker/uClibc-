@@ -1,6 +1,10 @@
 %define	libname	%mklibname %{name} %{version}
 %define	libdev	%mklibname %{name} -d
 
+%ifarch %{ix86}
+%global ldflags %{ldflags} -fuse-ld=bfd
+%endif
+
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
