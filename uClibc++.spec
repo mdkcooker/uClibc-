@@ -26,6 +26,7 @@ Patch8:		arm-eabi_fix.patch
 # fixes issue with not treating as ios_base::right if no adjustfield flag set
 # also implements handling of ios_base::internal
 Patch9:		uClibc++-0.2.4-fix-ostream-adjustfield.patch
+Patch10:	uClibc++-0.2.4-pass-strings-to-ostream-hack.patch
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -71,8 +72,9 @@ library. The library will focus on space savings as opposed to performance.
 %patch5 -p1 -b .gl_noskipws~
 %patch6 -p1 -b .ptr_cmp~
 %patch7 -p1 -b .istream_op~
-%patch8 -p1 -b .arm_eabi
+%patch8 -p1 -b .arm_eabi~
 %patch9 -p1 -b .adjust~
+%patch10 -p1 -b .ostr~
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 
 # using 'rpm --eval' here for multilib purposes..

@@ -1,0 +1,18 @@
+--- uClibc++-0.2.4/include/ostream~	2013-03-01 11:14:37.536262529 +0100
++++ uClibc++-0.2.4/include/ostream	2013-03-01 14:11:50.599866989 +0100
+@@ -434,6 +434,15 @@ namespace std {
+ 		return out;
+ 	}
+ 
++	// This is not the right way, but let's go with it for now... :|
++	template<class charT, class traits> _UCXXEXPORT basic_ostream<charT,traits>&
++		operator<<(basic_ostream<charT, traits>& out, const basic_string<charT,traits>& c)
++	{
++		typename basic_ostream<charT,traits>::sentry s(out);
++		out.printout(c.c_str(), c.size() );
++		return out;
++	}
++
+ 	template <class charT, class traits> _UCXXEXPORT basic_ostream<charT,traits>&
+ 		endl(basic_ostream<charT,traits>& os)
+ 	{
