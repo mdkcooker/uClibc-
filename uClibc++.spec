@@ -8,7 +8,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	9
+Release:	10
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://cxx.uclibc.org/
@@ -23,6 +23,9 @@ Patch5:		uClibc++-0.2.4-string-getline-noskipws-fix.patch
 Patch6:		uClibc++-0.2.4-fix-ordered-comparison-of-pointer-with-integer-zero.patch
 Patch7:		uClibc++-0.2.4-add-missing-istream-operator-implementation.patch
 Patch8:		arm-eabi_fix.patch
+# fixes issue with not treating as ios_base::right if no adjustfield flag set
+# also implements handling of ios_base::internal
+Patch9:		uClibc++-0.2.4-fix-ostream-adjustfield.patch
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -69,6 +72,7 @@ library. The library will focus on space savings as opposed to performance.
 %patch6 -p1 -b .ptr_cmp~
 %patch7 -p1 -b .istream_op~
 %patch8 -p1 -b .arm_eabi
+%patch9 -p1 -b .adjust~
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 
 # using 'rpm --eval' here for multilib purposes..

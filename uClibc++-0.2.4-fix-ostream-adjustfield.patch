@@ -1,0 +1,23 @@
+--- uClibc++-0.2.4/include/ostream.adjust~	2013-03-01 10:49:36.073760868 +0100
++++ uClibc++-0.2.4/include/ostream	2013-03-01 10:50:07.173091288 +0100
+@@ -131,14 +131,18 @@ namespace std {
+ 
+ 		_UCXXEXPORT void printout(const char_type* s, streamsize n){
+ 			streamsize extra = ios::width() - n;
+-			if ((ios::flags()&ios::adjustfield) == ios::right){
++			ios_base::fmtflags adjustflag = ios_base::mformat & ios_base::adjustfield;
++
++			if (adjustflag == ios_base::internal && n != 0 && (s[0] == '-' || s[0] == '+'))
++				put(*s++);
++			if (adjustflag != ios_base::left) {
+ 				while (extra > 0) {
+ 					--extra;
+ 					put(ios::fill());
+ 				}
+ 			}
+ 			write(s, n);
+-			if ((ios::flags()&ios::adjustfield) == ios::left) {
++			if (adjustflag == ios::left) {
+ 				while (extra > 0) {
+ 					--extra;
+ 					put(ios::fill());
