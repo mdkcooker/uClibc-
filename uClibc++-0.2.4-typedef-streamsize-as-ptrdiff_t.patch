@@ -1,0 +1,19 @@
+--- uClibc++-0.2.4/include/basic_definitions~	2013-03-02 08:17:24.504545937 +0100
++++ uClibc++-0.2.4/include/basic_definitions	2013-03-02 08:17:54.071765822 +0100
+@@ -19,6 +19,7 @@
+ #define __BASIC_DEFINITIONS 1
+ 
+ #include <system_configuration.h>
++#include <cstddef>
+ 
+ #pragma GCC visibility push(default)
+ 
+@@ -51,7 +52,7 @@
+ #define __STRING_MAX_UNITS 65535
+ 
+ namespace std{
+-	typedef signed long int streamsize;
++	typedef ptrdiff_t	streamsize;
+ }
+ 
+ #pragma GCC visibility pop
