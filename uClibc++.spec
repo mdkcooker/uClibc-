@@ -78,6 +78,9 @@ library. The library will focus on space savings as opposed to performance.
 %patch10 -p1 -b .ostr~
 %patch11 -p1 -b .streamsize~
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
+%ifarch %arm
+sed -i 's/UCLIBCXX_HAS_LONG_DOUBLE=y/UCLIBCXX_HAS_LONG_DOUBLE=n/g' .config
+%endif
 
 # using 'rpm --eval' here for multilib purposes..
 #TODO: figure out binutils --sysroot + multilib in binutils package?
