@@ -79,16 +79,8 @@ library. The library will focus on space savings as opposed to performance.
 %patch11 -p1 -b .streamsize~
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 
-# using 'rpm --eval' here for multilib purposes..
-#TODO: figure out binutils --sysroot + multilib in binutils package?
 cat > %{uclibc_cxx} << EOF
-#!/bin/sh
-export C_INCLUDE_PATH="\$(rpm --eval %%{uclibc_root}%%{_includedir}):\$(gcc -print-search-dirs|grep install:|cut -d\  -f2)include"
-#XXX: this should add rpath, but for some reason it no longer happens and we
-# have to pass the -rpath option to the linker as well
-export LD_RUN_PATH="\$(rpm --eval %%{uclibc_root}/%%{_lib}:%%{uclibc_root}%%{_libdir})"
-export LIBRARY_PATH="\$LD_RUN_PATH"
-exec g++ -muclibc -I%{uclibc_root}%{_includedir} -I%{uclibc_root}%{_includedir}/c++ -Wl,-rpath="\$LD_RUN_PATH" -Wl,-nostdlib -nodefaultlibs -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
+exec g++ -muclibc -specs=%{uclibc_root}%{_datadir}/gcc-spec-uclibc -I%{uclibc_root}%{_includedir}/c++ -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
 EOF
 chmod +x %{uclibc_cxx}
 
