@@ -27,7 +27,6 @@ Patch8:		arm-eabi_fix.patch
 # also implements handling of ios_base::internal
 Patch9:		uClibc++-0.2.4-fix-ostream-adjustfield.patch
 Patch10:	uClibc++-0.2.4-pass-strings-to-ostream-hack.patch
-Patch11:	uClibc++-0.2.4-typedef-streamsize-as-ptrdiff_t.patch
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -76,7 +75,6 @@ library. The library will focus on space savings as opposed to performance.
 %patch8 -p1 -b .arm_eabi~
 %patch9 -p1 -b .adjust~
 %patch10 -p1 -b .ostr~
-%patch11 -p1 -b .streamsize~
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 %ifarch %arm
 sed -i 's/UCLIBCXX_HAS_LONG_DOUBLE=y/UCLIBCXX_HAS_LONG_DOUBLE=n/g' .config
