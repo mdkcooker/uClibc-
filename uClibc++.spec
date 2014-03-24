@@ -23,11 +23,24 @@ Patch5:		uClibc++-0.2.4-string-getline-noskipws-fix.patch
 Patch6:		uClibc++-0.2.4-fix-ordered-comparison-of-pointer-with-integer-zero.patch
 Patch7:		uClibc++-0.2.4-add-missing-istream-operator-implementation.patch
 Patch8:		arm-eabi_fix.patch
-# fixes issue with not treating as ios_base::right if no adjustfield flag set
+# fixes issue with not treati0001-Make-std-move-POD-avare.patchng as ios_base::right if no adjustfield flag set
 # also implements handling of ios_base::internal
 Patch9:		uClibc++-0.2.4-fix-ostream-adjustfield.patch
 Patch10:	uClibc++-0.2.4-pass-strings-to-ostream-hack.patch
-Patch11:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch
+
+# patches from https://github.com/kibergus/StandardCplusplus
+Patch101:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch
+Patch102:	0001-Fix-std-find-to-use-operator-as-gcc-stdlibc-does.patch
+Patch103:	uClibc++-0.2.4-add-initializer_list-and-construct-vector-from-one.patch
+Patch104:	0001-Add-free-functions-begin-container-and-end-container.patch
+Patch105:	0001-std-move-and-std-forward.patch
+Patch106:	0001-Rewrite-lower_bound-and-upper_bound-in-a-more-compac.patch
+Patch107:	uClibc++-0.2.4-Add-FIXME-to-problem-places-in-vector-realization.patch
+Patch108:	uClibc++-0.2.4-optimized-copy-and-realization-for-std-move-std-move.patch
+Patch109:	uClibc++-0.2.4-Allow-gcc-to-utilize-ld-st-with-increment-decrement-.patch
+Patch110:	0001-allocator-now-supports-emplace-construction.patch
+Patch111:	uClibc++-0.2.4-POD-avare-std-copy.patch
+Patch112:	uClibc++-0.2.4-Make-std-move-POD-aware.patch
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -76,7 +89,20 @@ library. The library will focus on space savings as opposed to performance.
 %patch8 -p1 -b .arm_eabi~
 %patch9 -p1 -b .adjust~
 %patch10 -p1 -b .ostr~
-%patch11 -p1 -b .terminate~
+
+
+%patch101 -p1 -b .terminate~
+%patch102 -p1 -b .stdfind~
+%patch103 -p1 -b .init_list~
+%patch104 -p1 -b .container_free~
+%patch105 -p1 -b .std_move~
+%patch106 -p1 -b .bounds~
+%patch107 -p1 -b .vector_realiz~
+%patch108 -p1 -b .copy_opt~
+%patch109 -p1 -b .inc_dec~
+%patch110 -p1 -b .emplace_construct~
+%patch111 -p1 -b .pod_copy~
+%patch112 -p1 -b .pod_move~
 
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 %ifarch %arm

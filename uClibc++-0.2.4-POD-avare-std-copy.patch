@@ -1,0 +1,250 @@
+--- uClibc++-0.2.4/include/algorithm.pod_copy~	2014-03-24 22:02:32.990631837 +0100
++++ uClibc++-0.2.4/include/algorithm	2014-03-24 22:03:11.016332397 +0100
+@@ -353,57 +353,100 @@ namespace std{
+ 
+ 	// subclause _lib.alg.modifying.operations_, modifying sequence operations:
+ 
++    template<typename, typename>
++    struct __are_same : public std::false_type {};
++    template<typename Tp>
++    struct __are_same<Tp, Tp>: public std::true_type {};
++
+  	// This one is should be as effective as memcpy with proper compiler
+- 	char* copy(char* first, char* last, char* result);
+- 	char* copy_backward(char* first, char* last, char* result);
+- 
++	char* __copy(char* first, char* last, char* result);
++    
++    template<bool is_simple>
++    struct __do_copy;
++
+  	// Specialization for trivially_copiable types. Avoids code bloat by using same realization for all types.
+- 	template<class T>
+- 	// is_trivially_copiable is missing in gcc 4.5
+- 	//inline typename std::enable_if<std::is_trivially_copiable<T>::value, T*>::type 
+- 	inline typename std::enable_if<std::is_trivial<T>::value, T*>::type 
+- 	copy(T* first, T* last, T* result) {
+- 		return reinterpret_cast<T*>(
+- 			copy(
+- 				reinterpret_cast<char*>(first),
+- 				reinterpret_cast<char*>(last) + sizeof(T) - 1,
+- 				reinterpret_cast<char*>(result)
+- 			)) - sizeof(T) + 1;
+- 	}
+- 
+- 	template<class T>
+- 	// is_trivially_copiable is missing in gcc 4.5
+- 	//inline typename std::enable_if<std::is_trivially_copiable<T>::value, T*>::type 
+- 	inline typename std::enable_if<std::is_trivial<T>::value, T*>::type 
+- 	copy_backward(T* first, T* last, T* result) {
+- 		return reinterpret_cast<T*>(
+- 			copy_backward(
+- 				reinterpret_cast<char*>(first),
+- 				reinterpret_cast<char*>(last) + sizeof(T) - 1,
+- 				reinterpret_cast<char*>(result)
+- 			)) - sizeof(T) + 1;
+- 	}
++    template<>
++    struct __do_copy<true> {
++        template<class InputIterator, class OutputIterator>
++        static inline OutputIterator do_copy(InputIterator first, InputIterator last, OutputIterator result) {
++            typedef typename std::iterator_traits<InputIterator>::value_type ValueType;
++            return reinterpret_cast<ValueType*>(
++                __copy(
++                    reinterpret_cast<char*>(first),
++                    reinterpret_cast<char*>(last) + sizeof(ValueType) - 1,
++                    reinterpret_cast<char*>(result)
++                )) - sizeof(ValueType) + 1;
++	    }
++    };
++    template<>
++    struct __do_copy<false> {
++        // Universal realization
++        template<class InputIterator, class OutputIterator>
++        static inline OutputIterator do_copy(InputIterator first, InputIterator last, OutputIterator result) {
++            while(first != last) *result++ = *first++;
++            return result;
++        }
++    };
+  
+      // Generic realization for all other types
+ 	template<class InputIterator, class OutputIterator> _UCXXEXPORT
+ 		OutputIterator
+ 		copy(InputIterator first, InputIterator last, OutputIterator result)
+-	{
+-		while(first != last) {
+-			*(result++) = *(first++);
+-		}
+-		return result;
++    {
++        typedef typename std::iterator_traits<InputIterator>::value_type ValueTypeI;
++        typedef typename std::iterator_traits<OutputIterator>::value_type ValueTypeO;
++        const bool is_simple = (
++            std::is_trivial<ValueTypeI>::value &&
++            std::is_pointer<InputIterator>::value &&
++            std::is_pointer<OutputIterator>::value &&
++            __are_same<ValueTypeI, ValueTypeO>::value);
++
++        return __do_copy<is_simple>::do_copy(first, last, result);
+ 	}
+ 
+-	template<class BidirectionalIterator1, class BidirectionalIterator2> _UCXXEXPORT
+-		BidirectionalIterator2
+-		copy_backward(BidirectionalIterator1 first, BidirectionalIterator1 last,
+-			BidirectionalIterator2 result)
++    template<bool is_simple>
++    struct __do_copy_backward;
++
++	char* __copy_backward(char* first, char* last, char* result);
++    template<>
++    struct __do_copy_backward<true> {
++        template<class InputIterator, class OutputIterator>
++        static inline OutputIterator do_copy_backward(
++                InputIterator first, InputIterator last, OutputIterator result) {
++            typedef typename std::iterator_traits<InputIterator>::value_type ValueType;
++            return reinterpret_cast<ValueType*>(
++                __copy_backward(
++                    reinterpret_cast<char*>(first),
++                    reinterpret_cast<char*>(last) + sizeof(ValueType) - 1,
++                    reinterpret_cast<char*>(result)
++                )) - sizeof(ValueType) + 1;
++	    }
++    };
++    template<>
++    struct __do_copy_backward<false> {
++        // Universal realization
++        template<class InputIterator, class OutputIterator>
++        static inline OutputIterator do_copy_backward(
++                InputIterator first, InputIterator last, OutputIterator result) {
++            while(first != last) *result++ = *first++;
++            return result;
++        }
++    };
++
++	template<class InputBidirectionalIterator, class OutputBidirectionalIterator> _UCXXEXPORT
++		OutputBidirectionalIterator
++		copy_backward(InputBidirectionalIterator first, InputBidirectionalIterator last,
++			OutputBidirectionalIterator result)
+ 	{
+-		while(first !=last ) {
+-			*(--result) = *(--last);
+-		}
+-		return result;
++        typedef typename std::iterator_traits<InputBidirectionalIterator>::value_type ValueTypeI;
++        typedef typename std::iterator_traits<OutputBidirectionalIterator>::value_type ValueTypeO;
++        const bool is_simple = (
++            std::is_trivial<ValueTypeI>::value &&
++            std::is_pointer<InputBidirectionalIterator>::value &&
++            std::is_pointer<OutputBidirectionalIterator>::value &&
++            __are_same<ValueTypeI, ValueTypeO>::value);
++
++        return __do_copy_backward<is_simple>::do_copy_backward(first, last, result);
+ 	}
+ 
+  	// Specialization for trivially_copiable types. Avoids code bloat by using same realization for all types.
+--- uClibc++-0.2.4/include/type_traits.pod_copy~	2014-03-24 22:02:32.994632016 +0100
++++ uClibc++-0.2.4/include/type_traits	2014-03-24 22:02:32.998632195 +0100
+@@ -27,6 +27,18 @@
+ #pragma GCC visibility push(default)
+ 
+ namespace std{
++    #define _DEFINE_SPEC_0_HELPER                          \
++        template<>
++
++    #define _DEFINE_SPEC_1_HELPER                          \
++        template<typename _Tp>
++
++    #define _DEFINE_SPEC_2_HELPER                          \
++        template<typename _Tp, typename _Cp>
++
++    #define _DEFINE_SPEC(_Order, _Trait, _Type, _Value)    \
++        _DEFINE_SPEC_##_Order##_HELPER                     \
++        struct _Trait<_Type> : public integral_constant<bool, _Value> { };
+ 
+ 	struct _UCXXEXPORT __true_type{};
+ 	struct _UCXXEXPORT __false_type{};
+@@ -152,6 +164,64 @@ namespace std{
+ 	struct enable_if<true, _Tp>
+ 	{ typedef _Tp type; };
+ 
++// -------------
++  // const-volatile modifications [4.7.1].
++
++  /// remove_const
++  template<typename _Tp>
++    struct remove_const
++    { typedef _Tp     type; };
++
++  template<typename _Tp>
++    struct remove_const<_Tp const>
++    { typedef _Tp     type; };
++  
++  /// remove_volatile
++  template<typename _Tp>
++    struct remove_volatile
++    { typedef _Tp     type; };
++
++  template<typename _Tp>
++    struct remove_volatile<_Tp volatile>
++    { typedef _Tp     type; };
++
++  /// remove_cv
++  template<typename _Tp>
++    struct remove_cv
++    {
++      typedef typename
++      remove_const<typename remove_volatile<_Tp>::type>::type     type;
++    };
++
++  template<typename>
++    struct __is_pointer_helper
++    : public false_type { };
++  _DEFINE_SPEC(1, __is_pointer_helper, _Tp*, true)
++
++  /// is_pointer
++  template<typename _Tp>
++    struct is_pointer
++    : public integral_constant<bool, (__is_pointer_helper<typename
++				      remove_cv<_Tp>::type>::value)>
++    { };
++
++  /// add_const
++  template<typename _Tp>
++    struct add_const
++    { typedef _Tp const     type; };
++   
++  /// add_volatile
++  template<typename _Tp>
++    struct add_volatile
++    { typedef _Tp volatile     type; };
++  
++  /// add_cv
++  template<typename _Tp>
++    struct add_cv
++    {
++      typedef typename
++      add_const<typename add_volatile<_Tp>::type>::type     type;
++    };
+ }
+ 
+ #pragma GCC visibility pop
+--- uClibc++-0.2.4/src/algorithm.cpp.pod_copy~	2014-03-24 22:02:32.986631658 +0100
++++ uClibc++-0.2.4/src/algorithm.cpp	2014-03-24 22:02:32.999632239 +0100
+@@ -23,7 +23,7 @@
+ 
+ namespace std{
+ 
+-	char* copy(char* first, char* last, char* result) {
++	char* __copy(char* first, char* last, char* result) {
+         #ifdef __AVR__
+         // This is 1/3 shorter than code produced by GCC
+         asm (
+@@ -45,7 +45,7 @@ namespace std{
+         #endif
+ 	}
+ 
+-	char* copy_backward(char* first, char* last, char* result) {
++	char* __copy_backward(char* first, char* last, char* result) {
+         #ifdef __AVR__
+         // This is 1/3 shorter than code produced by GCC
+         asm (

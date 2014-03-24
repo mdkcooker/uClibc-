@@ -1,0 +1,25 @@
+From c689b16cceb3ef22d0606fc5566eb178fa1a40d7 Mon Sep 17 00:00:00 2001
+From: maniacbug <maniacbug@ymail.com>
+Date: Sun, 12 Feb 2012 00:13:58 -0800
+Subject: [PATCH] Fix std::find() to use operator==, as gcc stdlibc++ does.
+
+---
+ include/algorithm | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/algorithm b/include/algorithm
+index 71d1d0e..7c830ed 100644
+--- a/include/algorithm
++++ b/include/algorithm
+@@ -46,7 +46,7 @@ namespace std{
+ 	template<class InputIterator, class T> _UCXXEXPORT
+ 		InputIterator find(InputIterator first, InputIterator last, const T& value)
+ 	{
+-		while(first !=last && *first != value){
++		while(first !=last && ! ( *first == value ) ){
+ 			++first;
+ 		}
+ 		return first;
+-- 
+1.9.0
+
