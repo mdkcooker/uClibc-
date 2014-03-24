@@ -138,9 +138,10 @@ sed -e "s#%{uclibc_root}/%{_lib}/libuClibc++.so#$PWD/src/libuClibc++.so#g" src/l
 %install
 %makeinstall_std
 
+cp -a include/bits %{buildroot}%{uclibc_root}%{_includedir}/c++/bits
 install -m755 %{uclibc_cxx} -D %{buildroot}%{_bindir}/%{uclibc_cxx}
 
-rm -f %{buildroot}%{uclibc_root}/bin/g++-uc
+rm %{buildroot}%{uclibc_root}/bin/g++-uc
 
 
 %files -n uclibc-%{libname}
