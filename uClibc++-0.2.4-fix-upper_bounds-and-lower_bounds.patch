@@ -1,0 +1,61 @@
+--- uClibc++-0.2.4/include/algorithm.bounds_fix~	2014-03-25 00:09:55.764167011 +0100
++++ uClibc++-0.2.4/include/algorithm	2014-03-25 00:11:17.347848331 +0100
+@@ -1018,19 +1019,14 @@ namespace std{
+ 		ForwardIterator lower_bound(ForwardIterator first, ForwardIterator last,
+ 			const T& value, Compare comp)
+ 	{
+-		typedef typename iterator_traits<ForwardIterator>::difference_type DistanceType;
+-		DistanceType len = std::distance(first, last);
+-		while (len > 0) {
+-			DistanceType half = len >> 1;
+-			ForwardIterator middle = first;
+-			std::advance(middle, half);
+-			if (comp(*middle, value) < 0) {
+-				first = middle;
+-				++first;
+-				len = len - half - 1;
+-			} else {
+-				len = half;
+-			}
++		ForwardIterator mid;
++		while (first != last) {
++			mid = first;
++			std::advance (mid, size_t(std::distance(first,last)) >> 2);
++			if (comp (*mid, value))
++				first = mid + 1;
++			else
++				last = mid;
+ 		}
+ 		return first;
+ 	}
+@@ -1048,21 +1044,16 @@ namespace std{
+ 		ForwardIterator upper_bound(ForwardIterator first, ForwardIterator last,
+ 			const T& value, Compare comp)
+ 	{
+-		typedef typename iterator_traits<ForwardIterator>::difference_type DistanceType;
+-		DistanceType len = std::distance(first, last);
+-		while (len > 0) {
+-			DistanceType half = len >> 1;
+-			ForwardIterator middle = first;
+-			std::advance(middle, half);
+-			if (comp(value, *middle)){
+-				len = half;
+-			} else {
+-				first = middle;
+-				++first;
+-				len = len - half - 1;
+-			}
++		ForwardIterator mid;
++		while (first != last) {
++			mid = first;
++			std::advance (mid, size_t(std::distance (first,last)) >> 1);
++			if (comp (value, *mid))
++				last = mid;
++			else
++				first = mid + 1;
+ 		}
+-		return first;
++		return last;
+ 	}
+ 
+ 

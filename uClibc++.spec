@@ -8,7 +8,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	16
+Release:	17
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://cxx.uclibc.org/
@@ -41,6 +41,10 @@ Patch109:	uClibc++-0.2.4-Allow-gcc-to-utilize-ld-st-with-increment-decrement-.pa
 Patch110:	0001-allocator-now-supports-emplace-construction.patch
 Patch111:	uClibc++-0.2.4-POD-avare-std-copy.patch
 Patch112:	uClibc++-0.2.4-Make-std-move-POD-aware.patch
+
+# fix borkage in P106
+Patch200:	uClibc++-0.2.4-fix-upper_bounds-and-lower_bounds.patch
+
 BuildRequires:	stdc++-static-devel uClibc-devel >= 0.9.33.2-15
 
 %description
@@ -103,6 +107,8 @@ library. The library will focus on space savings as opposed to performance.
 %patch110 -p1 -b .emplace_construct~
 %patch111 -p1 -b .pod_copy~
 %patch112 -p1 -b .pod_move~
+
+%patch200 -p1 -b .bounds_fix~
 
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
 %ifarch %arm
