@@ -1,0 +1,144 @@
+From 5ed51752b55652c9638d56731c08ac1390c9ff18 Mon Sep 17 00:00:00 2001
+From: Alexey Guseynov <kibergus@gmail.com>
+Date: Sun, 12 Aug 2012 17:48:40 +0400
+Subject: [PATCH] Lacking realization of std::terminate. Call terminate in case
+ if exception can't be thrown.
+
+---
+ func_exception.cpp | 16 ++++++++--------
+ terminate.cpp      | 42 ++++++++++++++++++++++++++++++++++++++++++
+ unexpected.cpp     | 37 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 87 insertions(+), 8 deletions(-)
+ create mode 100644 terminate.cpp
+ create mode 100644 unexpected.cpp
+
+diff --git a/func_exception.cpp b/func_exception.cpp
+index fab095f..e8701f0 100644
+--- a/src/func_exception.cpp
++++ b/src/func_exception.cpp
+@@ -61,23 +61,23 @@ _UCXXEXPORT void __throw_invalid_argument(const char * message){
+ #else
+ 
+ _UCXXEXPORT void __throw_bad_alloc(){
+-	abort();
++	std::terminate();
+ }
+ 
+-_UCXXEXPORT void __throw_out_of_range( const char * ){
+-	abort();
++_UCXXEXPORT void __throw_out_of_range( const char *){
++	std::terminate();
+ }
+ 
+-_UCXXEXPORT void __throw_overflow_error( const char * ){
+-	abort();
++_UCXXEXPORT void __throw_overflow_error( const char *){
++	std::terminate();
+ }
+ 
+-_UCXXEXPORT void __throw_length_error(const char * ){
+-	abort();
++_UCXXEXPORT void __throw_length_error(const char *){
++	std::terminate();
+ }
+ 
+ _UCXXEXPORT void __throw_invalid_argument(const char *){
+-	abort();
++	std::terminate();
+ }
+ 
+ #endif
+diff --git a/terminate.cpp b/terminate.cpp
+new file mode 100644
+index 0000000..ec1660c
+--- /dev/null
++++ b/src/terminate.cpp
+@@ -0,0 +1,42 @@
++/*	Copyright (C) 2012 Alexey Guseynov
++
++	This file is part of the uClibc++ Library.
++
++	This library is free software; you can redistribute it and/or
++	modify it under the terms of the GNU Lesser General Public
++	License as published by the Free Software Foundation; either
++	version 2.1 of the License, or (at your option) any later version.
++
++	This library is distributed in the hope that it will be useful,
++	but WITHOUT ANY WARRANTY; without even the implied warranty of
++	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++	Lesser General Public License for more details.
++
++	You should have received a copy of the GNU Lesser General Public
++	License along with this library; if not, write to the Free Software
++	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++*/
++
++#include <exception>
++#include <cstdlib>
++
++namespace {
++	std::terminate_handler __terminate_handler = std::abort;
++}
++
++void std::terminate () throw() {
++	#ifdef __UCLIBCXX_EXCEPTION_SUPPORT__
++	try {
++		__terminate_handler ();
++	} catch(...) {}
++	#else
++	__terminate_handler ();
++	#endif
++	std::abort ();
++}
++
++std::terminate_handler std::set_terminate (std::terminate_handler func) throw() {
++	std::terminate_handler old = __terminate_handler;
++	__terminate_handler = func;
++	return old;
++}
+diff --git a/unexpected.cpp b/unexpected.cpp
+new file mode 100644
+index 0000000..8dc919a
+--- /dev/null
++++ b/src/unexpected.cpp
+@@ -0,0 +1,37 @@
++/*	Copyright (C) 2012 Alexey Guseynov
++
++	This file is part of the uClibc++ Library.
++
++	This library is free software; you can redistribute it and/or
++	modify it under the terms of the GNU Lesser General Public
++	License as published by the Free Software Foundation; either
++	version 2.1 of the License, or (at your option) any later version.
++
++	This library is distributed in the hope that it will be useful,
++	but WITHOUT ANY WARRANTY; without even the implied warranty of
++	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++	Lesser General Public License for more details.
++
++	You should have received a copy of the GNU Lesser General Public
++	License along with this library; if not, write to the Free Software
++	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++*/
++
++#include <exception>
++
++namespace {
++	std::unexpected_handler __unexpected_handler = std::terminate;
++}
++
++void
++std::unexpected ()
++{
++	__unexpected_handler();
++	std::terminate ();
++}
++
++std::unexpected_handler std::set_unexpected (std::unexpected_handler func) throw() {
++	std::unexpected_handler old = __unexpected_handler;
++	__unexpected_handler = func;
++	return old;
++}
+-- 
+1.9.0
+
