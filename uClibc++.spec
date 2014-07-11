@@ -8,7 +8,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	18
+Release:	19
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://cxx.uclibc.org/
