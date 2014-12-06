@@ -8,7 +8,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	19
+Release:	20
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://cxx.uclibc.org/
@@ -116,7 +116,7 @@ sed -i 's/UCLIBCXX_HAS_LONG_DOUBLE=y/UCLIBCXX_HAS_LONG_DOUBLE=n/g' .config
 %endif
 
 cat > %{uclibc_cxx} << EOF
-exec g++ -muclibc -specs=%{uclibc_root}%{_datadir}/gcc-spec-uclibc -I%{uclibc_root}%{_includedir}/c++ -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
+exec g++ -muclibc -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs -I%{uclibc_root}%{_includedir}/c++ -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
 EOF
 chmod +x %{uclibc_cxx}
 
