@@ -47,6 +47,7 @@ Patch112:	uClibc++-0.2.4-Make-std-move-POD-aware.patch
 
 # patches from https://github.com/rpavlik/uClibcpp
 Patch150:	0001-Extend-limits-more-types-some-implementations.patch
+Patch151:	0002-Provide-implementation-for-non-specialized-numeric_l.patch
 
 # fix borkage in P106
 Patch200:	uClibc++-0.2.4-fix-upper_bounds-and-lower_bounds.patch
@@ -117,6 +118,7 @@ library. The library will focus on space savings as opposed to performance.
 %patch112 -p1 -b .pod_move~
 
 %patch150 -p1 -b .extlimits~
+%patch151 -p1 -b .numeric_limits~
 
 %patch200 -p1 -b .bounds_fix~
 
