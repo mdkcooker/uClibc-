@@ -28,6 +28,7 @@ Patch8:		arm-eabi_fix.patch
 Patch9:		uClibc++-0.2.4-fix-ostream-adjustfield.patch
 Patch10:	uClibc++-0.2.4-pass-strings-to-ostream-hack.patch
 Patch11:	uClibc++-0.2.4-fix-lgcc_s-lgcc_eh-lsupc++.patch
+Patch12:	uClibc++-0.2.4-add-cstdint-header.patch
 
 # patches from https://github.com/kibergus/StandardCplusplus
 Patch101:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch
@@ -95,6 +96,7 @@ library. The library will focus on space savings as opposed to performance.
 %patch9 -p1 -b .adjust~
 %patch10 -p1 -b .ostr~
 %patch11 -p1 -b .lsupc++~
+%patch12 -p1 -b .cstdint~
 
 %patch101 -p1 -b .terminate~
 %patch102 -p1 -b .stdfind~
