@@ -45,6 +45,9 @@ Patch110:	0001-allocator-now-supports-emplace-construction.patch
 Patch111:	uClibc++-0.2.4-POD-avare-std-copy.patch
 Patch112:	uClibc++-0.2.4-Make-std-move-POD-aware.patch
 
+# patches from https://github.com/rpavlik/uClibcpp
+Patch150:	0001-Extend-limits-more-types-some-implementations.patch
+
 # fix borkage in P106
 Patch200:	uClibc++-0.2.4-fix-upper_bounds-and-lower_bounds.patch
 
@@ -112,6 +115,8 @@ library. The library will focus on space savings as opposed to performance.
 %patch110 -p1 -b .emplace_construct~
 %patch111 -p1 -b .pod_copy~
 %patch112 -p1 -b .pod_move~
+
+%patch150 -p1 -b .extlimits~
 
 %patch200 -p1 -b .bounds_fix~
 
