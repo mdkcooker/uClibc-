@@ -1,0 +1,32 @@
+--- uClibc++-0.2.4/Rules.mak.lsupc++~	2014-12-11 19:56:10.075577009 +0100
++++ uClibc++-0.2.4/Rules.mak	2014-12-11 19:58:44.688398453 +0100
+@@ -80,7 +80,7 @@ check_gxx_visibility=$(shell if $(CXX) -
+         then echo "-DGCC_HASCLASSVISIBILITY"; fi)
+ 
+ check_as_needed=$(shell if $(LD) --help | grep -q 'as-needed' ; \
+-	then echo "-Wl,--as-needed -lgcc_s -Wl,--no-as-needed"; else echo "-lgcc_s"; fi)
++	then echo "-Wl,--as-needed -lgcc_eh -Wl,--no-as-needed"; else echo "-lgcc_eh"; fi)
+ 
+ # strip quotes
+ qstrip = $(strip $(subst ",,$(1)))
+@@ -145,7 +145,7 @@ ifneq ($(LIBGCC_DIR),$(UCLIBCXX_DEVEL_LI
+ GEN_LIBS += -L$(LIBGCC_DIR)
+ endif
+ ifneq ($(IMPORT_LIBSUP),y)
+-  GEN_LIBS += -lsupc++
++  GEN_LIBS += $(shell CC=$(CC) scripts/find_libsupc.sh)
+ endif
+ GEN_LIBS += -lc -lgcc
+ 
+@@ -156,9 +156,9 @@ ifneq ($(GCC_MAJOR_VER),3)
+ LIBS += $(call check_as_needed)
+ endif
+ ifneq ($(IMPORT_LIBGCC_EH),y)
+-  STATIC_LIBS += -lgcc_eh
++  STATIC_LIBS += $(shell CC=$(CC) scripts/find_libgcc_eh.sh)
+ ifeq ($(GCC_MAJOR_VER),3)
+-  LIBS += -lgcc_eh
++  LIBS += $(shell CC=$(CC) scripts/find_libgcc_eh.sh)
+ endif
+ endif
+ #endif

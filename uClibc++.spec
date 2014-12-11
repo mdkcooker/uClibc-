@@ -27,6 +27,7 @@ Patch8:		arm-eabi_fix.patch
 # also implements handling of ios_base::internal
 Patch9:		uClibc++-0.2.4-fix-ostream-adjustfield.patch
 Patch10:	uClibc++-0.2.4-pass-strings-to-ostream-hack.patch
+Patch11:	uClibc++-0.2.4-fix-lgcc_s-lgcc_eh-lsupc++.patch
 
 # patches from https://github.com/kibergus/StandardCplusplus
 Patch101:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch
@@ -93,7 +94,7 @@ library. The library will focus on space savings as opposed to performance.
 %patch8 -p1 -b .arm_eabi~
 %patch9 -p1 -b .adjust~
 %patch10 -p1 -b .ostr~
-
+%patch11 -p1 -b .lsupc++~
 
 %patch101 -p1 -b .terminate~
 %patch102 -p1 -b .stdfind~
@@ -123,14 +124,14 @@ chmod +x %{uclibc_cxx}
 %build
 yes "" | %make oldconfig
 export PATH="$PWD:$PATH"
-%make CC="%{uclibc_cxx}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src"
+%make TOPDIR="$PWD/" CC="%{uclibc_cxx}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src -L../src/abi" IMPORT_LIBGCC_EH=y IMPORT_LIBGCC_SUPC=y 
 
 # skip test as the test suite will compare float values which has different precission on cpus..
 %check
 export PATH="$PWD:$PATH"
 mkdir -p test
 sed -e "s#%{uclibc_root}/%{_lib}/libuClibc++.so#$PWD/src/libuClibc++.so#g" src/libuClibc++.so > test/libuClibc++.so
-%make check VERBOSE=2 CC="%{uclibc_cxx}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../test" \
+%make check TOPDIR="$PWD/" VERBOSE=2 CC="%{uclibc_cxx}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../test -L../src/abi" IMPORT_LIBGCC_EH=y IMPORT_LIBGCC_SUPC=y \
 %ifarch %{ix86}
 || true
 %endif
