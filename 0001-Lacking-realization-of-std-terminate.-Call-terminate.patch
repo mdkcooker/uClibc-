@@ -5,14 +5,14 @@ Subject: [PATCH] Lacking realization of std::terminate. Call terminate in case
  if exception can't be thrown.
 
 ---
- func_exception.cpp | 16 ++++++++--------
- terminate.cpp      | 42 ++++++++++++++++++++++++++++++++++++++++++
- unexpected.cpp     | 37 +++++++++++++++++++++++++++++++++++++
+ src/func_exception.cpp | 16 ++++++++--------
+ src/terminate.cpp      | 42 ++++++++++++++++++++++++++++++++++++++++++
+ src/unexpected.cpp     | 37 +++++++++++++++++++++++++++++++++++++
  3 files changed, 87 insertions(+), 8 deletions(-)
- create mode 100644 terminate.cpp
- create mode 100644 unexpected.cpp
+ create mode 100644 src/terminate.cpp
+ create mode 100644 src/unexpected.cpp
 
-diff --git a/func_exception.cpp b/func_exception.cpp
+diff --git a/src/func_exception.cpp b/src/func_exception.cpp
 index fab095f..e8701f0 100644
 --- a/src/func_exception.cpp
 +++ b/src/func_exception.cpp
@@ -48,7 +48,7 @@ index fab095f..e8701f0 100644
  }
  
  #endif
-diff --git a/terminate.cpp b/terminate.cpp
+diff --git a/src/terminate.cpp b/src/terminate.cpp
 new file mode 100644
 index 0000000..ec1660c
 --- /dev/null
@@ -96,7 +96,7 @@ index 0000000..ec1660c
 +	__terminate_handler = func;
 +	return old;
 +}
-diff --git a/unexpected.cpp b/unexpected.cpp
+diff --git a/src/unexpected.cpp b/src/unexpected.cpp
 new file mode 100644
 index 0000000..8dc919a
 --- /dev/null
