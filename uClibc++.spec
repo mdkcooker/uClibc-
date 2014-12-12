@@ -128,7 +128,7 @@ sed -i 's/UCLIBCXX_HAS_LONG_DOUBLE=y/UCLIBCXX_HAS_LONG_DOUBLE=n/g' .config
 %endif
 
 cat > %{uclibc_cxx} << EOF
-exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs  -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
+exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs  -DGCC_HASCLASSVISIBILITY "\$@"
 EOF
 chmod +x %{uclibc_cxx}
 
