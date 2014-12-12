@@ -128,21 +128,26 @@ sed -i 's/UCLIBCXX_HAS_LONG_DOUBLE=y/UCLIBCXX_HAS_LONG_DOUBLE=n/g' .config
 %endif
 
 cat > %{uclibc_cxx} << EOF
-exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs  -DGCC_HASCLASSVISIBILITY "\$@"
+exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs  -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
 EOF
 chmod +x %{uclibc_cxx}
+
+cat > g++-link << EOF
+exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs  -DGCC_HASCLASSVISIBILITY "\$@"
+EOF
+chmod +x g++-link
 
 %build
 yes "" | %make oldconfig
 export PATH="$PWD:$PATH"
-%make TOPDIR="$PWD/" CC="%{uclibc_cxx}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src -L../src/abi" IMPORT_LIBGCC_EH=y IMPORT_LIBGCC_SUPC=y 
+%make TOPDIR="$PWD/" CC="g++-link" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../src -L../src/abi" IMPORT_LIBGCC_EH=y IMPORT_LIBGCC_SUPC=y
 
 # skip test as the test suite will compare float values which has different precission on cpus..
 %check
 export PATH="$PWD:$PATH"
 mkdir -p test
 sed -e "s#%{uclibc_root}/%{_lib}/libuClibc++.so#$PWD/src/libuClibc++.so#g" src/libuClibc++.so > test/libuClibc++.so
-%make check TOPDIR="$PWD/" VERBOSE=2 CC="%{uclibc_cxx}" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../test -L../src/abi" IMPORT_LIBGCC_EH=y IMPORT_LIBGCC_SUPC=y \
+%make check TOPDIR="$PWD/" VERBOSE=2 CC="g++-link" OPTIMIZATION="%{uclibc_cflags} -std=gnu++11" BUILD_EXTRA_LIBRARIES="%{ldflags}" STRIPTOOL="/bin/true" WR_CXX="%{uclibc_cxx} -I../include -L../test -L../src/abi" IMPORT_LIBGCC_EH=y IMPORT_LIBGCC_SUPC=y \
 %ifarch %{ix86}
 || true
 %endif
