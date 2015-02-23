@@ -1,0 +1,11 @@
+--- uClibc++-0.2.4/include/vector~	2012-05-25 23:15:31.000000000 +0200
++++ uClibc++-0.2.4/include/vector	2015-02-23 16:09:31.889410880 +0100
+@@ -267,7 +267,7 @@ namespace std{
+ 		template <class InputIterator> _UCXXEXPORT
+ 			void _insert_from_iterator(iterator position, InputIterator first, InputIterator last)
+ 		{
+-			T temp;
++			T temp = *first;
+ 			while(first !=last){
+ 				temp = *first;
+ 				position = insert(position, temp);
