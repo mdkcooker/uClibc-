@@ -8,7 +8,7 @@
 Summary:	A C++ standard library for uClibc
 Name:		uClibc++
 Version:	0.2.4
-Release:	22
+Release:	23
 License:	LGPLv2.1
 Group:		System/Libraries
 URL:		http://cxx.uclibc.org/
@@ -130,12 +130,12 @@ sed -i 's/UCLIBCXX_HAS_LONG_DOUBLE=y/UCLIBCXX_HAS_LONG_DOUBLE=n/g' .config
 %endif
 
 cat > %{uclibc_cxx} << EOF
-exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs  -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
+exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/gcc-spec-uclibc  -DGCC_HASCLASSVISIBILITY "\$@"  -luClibc++
 EOF
 chmod +x %{uclibc_cxx}
 
 cat > g++-link << EOF
-exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/uclibc-gcc.specs  -DGCC_HASCLASSVISIBILITY "\$@"
+exec g++ -muclibc -nodefaultlibs -nostdinc++ -isystem %{uclibc_root}%{_includedir}/c++ -specs=%{uclibc_root}%{_datadir}/gcc-spec-uclibc  -DGCC_HASCLASSVISIBILITY "\$@"
 EOF
 chmod +x g++-link
 
