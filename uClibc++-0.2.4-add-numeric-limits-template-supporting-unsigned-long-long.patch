@@ -1,12 +1,9 @@
---- uClibc++-0.2.4/include/limits.uint64_t_limits~	2015-07-03 23:53:44.598631692 +0200
-+++ uClibc++-0.2.4/include/limits	2015-07-03 23:54:11.497611371 +0200
-@@ -100,9 +100,52 @@ template <> struct __bits_to_base_10<128
+--- uClibc++-0.2.4/include/limits.uint64_t_limits~	2012-05-25 23:15:31.000000000 +0200
++++ uClibc++-0.2.4/include/limits	2015-07-04 01:10:02.254324948 +0200
+@@ -613,6 +613,53 @@ public:
+ 	static T signaling_NaN();
  };
  
- 
--
--
--
 +template <> class numeric_limits<unsigned long long int> {
 +public:
 +	typedef unsigned long long int T;
@@ -53,6 +50,7 @@
 +	static T quiet_NaN();
 +	static T signaling_NaN();
 +};
- 
- template <class T> class numeric_limits {
++
+ template <> class numeric_limits<double> {
  public:
+ 	typedef double numeric_type;
