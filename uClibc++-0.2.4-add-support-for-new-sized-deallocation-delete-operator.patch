@@ -1,0 +1,18 @@
+--- uClibc++-0.2.4/src/del_op.cpp.sized_dealloc~	2015-07-04 01:51:38.079964248 +0200
++++ uClibc++-0.2.4/src/del_op.cpp	2015-07-04 01:51:42.519963990 +0200
+@@ -21,6 +21,14 @@
+ #include <cstdlib>
+ #include <func_exception>
+ 
+-_UCXXEXPORT void operator delete(void* ptr) throw(){
++_UCXXEXPORT void operator delete(void* ptr) noexcept {
+ 	free(ptr);
+ }
++
++_UCXXEXPORT void operator delete(void* ptr, std::size_t) noexcept {
++	::operator delete (ptr);
++}
++
++_UCXXEXPORT void operator delete[](void* ptr, size_t) noexcept {
++	::operator delete (ptr);
++}

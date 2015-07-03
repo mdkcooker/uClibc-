@@ -38,6 +38,7 @@ Patch18:	uClibc++-0.2.4-add-long-long-abs-llabs-function-to-cstdlib.patch
 Patch19:	uClibc++-0.2.4-initialize-fill_char-member-variable-for-basic_ios.patch
 Patch20:	uClibc++-0.2.4-fix-printf-format-to-use-proper-length-modifier-for-size_t.patch
 Patch21:	uClibc++-0.2.4-fix-default-argument-for-template-parameter-for-class-enclosing.patch
+Patch22:	uClibc++-0.2.4-add-support-for-new-sized-deallocation-delete-operator.patch
 
 # patches from https://github.com/kibergus/StandardCplusplus
 Patch101:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch
@@ -112,6 +113,15 @@ library. The library will focus on space savings as opposed to performance.
 %patch12 -p1 -b .cstdint~
 %patch13 -p1 -b .atexit_thread~
 %patch14 -p1 -b .vector_insert~
+# will need work otherwhere as well first..
+#patch15 -p1 -b .c++11_explicit~
+%patch16 -p1 -b .uint64_t_limits~
+%patch17 -p1 -b .istream_uint64_t~
+%patch18 -p1 -b .llabs~
+%patch19 -p1 -b .fill_char~
+%patch20 -p1 -b .size_t_fmt~
+%patch21 -p1 -b .def_arg_class_enc~
+%patch22 -p1 -b .sized_dealloc~
 
 %patch101 -p1 -b .terminate~
 %patch102 -p1 -b .stdfind~
