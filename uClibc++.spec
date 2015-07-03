@@ -32,6 +32,7 @@ Patch12:	uClibc++-0.2.4-add-cstdint-header.patch
 Patch13:	uClibc++-0.2.4-drop-libsupc++-atexit_thread-object.patch
 Patch14:	uClibc++-0.2.4-fix-insert-on-vector-with-objects-without-default-constructor.patch
 Patch15:	uClibc++-0.2.4-make-istream-and-ostream-bool-operator-explicit-with-c++11-and-newer.patch
+Patch16:	uClibc++-0.2.4-add-numeric-limits-template-supporting-unsigned-long-long.patch
 
 # patches from https://github.com/kibergus/StandardCplusplus
 Patch101:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch
