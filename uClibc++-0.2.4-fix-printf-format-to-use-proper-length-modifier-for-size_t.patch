@@ -1,0 +1,11 @@
+--- uClibc++-0.2.4/include/fstream.size_t_fmt~	2015-07-04 00:22:18.104116655 +0200
++++ uClibc++-0.2.4/include/fstream	2015-07-04 00:22:20.722116307 +0200
+@@ -361,7 +361,7 @@ namespace std{
+ 					return traits::eof();
+ 				}
+ 				basic_streambuf<charT,traits>::pbump(-retval);
+-				fprintf(stderr, "***** Did not write the full buffer out.  Should be: %d, actually: %d\n",
++				fprintf(stderr, "***** Did not write the full buffer out.  Should be: %zu, actually: %zu\n",
+ 					 totalChars, retval);
+ 			}else{
+ 				basic_streambuf<charT,traits>::pbump(-r);
