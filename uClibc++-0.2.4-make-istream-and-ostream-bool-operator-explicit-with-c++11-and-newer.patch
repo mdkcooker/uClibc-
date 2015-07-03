@@ -1,0 +1,30 @@
+--- uClibc++-0.2.4/include/istream.c++11_explicit~	2015-07-03 23:38:05.167658086 +0200
++++ uClibc++-0.2.4/include/istream	2015-07-03 23:38:08.521659047 +0200
+@@ -358,7 +358,11 @@ namespace std{
+ 			ok = true;
+ 		}
+ 		_UCXXEXPORT ~sentry() { }
+-		_UCXXEXPORT operator bool() {
++		_UCXXEXPORT
++#if __cplusplus >= 201103L
++		explicit
++#endif
++		operator bool() {
+ 			return ok;
+ 		}
+ 	};
+--- uClibc++-0.2.4/include/ostream.c++11_explicit~	2015-07-03 23:38:24.743663608 +0200
++++ uClibc++-0.2.4/include/ostream	2015-07-03 23:38:31.063665346 +0200
+@@ -313,7 +313,11 @@ namespace std {
+ 			}
+ 		}
+ 		_UCXXEXPORT ~sentry() { }
+-		_UCXXEXPORT operator bool() {
++		_UCXXEXPORT
++#if __cplusplus >= 201103L
++		explicit
++#endif
++		operator bool() {
+ 			return ok;
+ 		}
+ 	};
