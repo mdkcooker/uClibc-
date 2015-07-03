@@ -35,6 +35,7 @@ Patch15:	uClibc++-0.2.4-make-istream-and-ostream-bool-operator-explicit-with-c++
 Patch16:	uClibc++-0.2.4-add-numeric-limits-template-supporting-unsigned-long-long.patch
 Patch17:	uClibc++-0.2.4-add-support-for-unsigned-long-long-for-istream-read-operator.patch
 Patch18:	uClibc++-0.2.4-add-long-long-abs-llabs-function-to-cstdlib.patch
+Patch19:	uClibc++-0.2.4-initialize-fill_char-member-variable-for-basic_ios.patch
 
 # patches from https://github.com/kibergus/StandardCplusplus
 Patch101:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch

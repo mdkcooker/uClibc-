@@ -1,0 +1,11 @@
+--- uClibc++-0.2.4/include/ios.fill_char~	2015-07-04 00:10:56.098224650 +0200
++++ uClibc++-0.2.4/include/ios	2015-07-04 00:10:57.910224292 +0200
+@@ -344,7 +344,7 @@ namespace std{
+ 			init(sb);
+ 		}
+ 
+-		basic_ios() : mtied(0), mstreambuf(0){ }
++		basic_ios() : fill_char(' '), mtied(0), mstreambuf(0){ }
+ 
+ 		virtual _UCXXEXPORT ~basic_ios(){
+ 		}
