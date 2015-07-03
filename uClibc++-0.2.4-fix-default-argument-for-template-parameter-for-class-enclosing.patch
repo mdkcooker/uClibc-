@@ -1,0 +1,22 @@
+--- uClibc++-0.2.4/include/istream.def_arg_class_enc~	2015-07-04 00:35:07.218451553 +0200
++++ uClibc++-0.2.4/include/istream	2015-07-04 00:35:13.151447402 +0200
+@@ -340,7 +340,7 @@ namespace std{
+ 
+ 	};
+ 
+-	template <class charT,class traits = char_traits<charT> > class _UCXXEXPORT basic_istream<charT,traits>::sentry {
++	template <typename charT,typename traits> class _UCXXEXPORT basic_istream<charT,traits>::sentry {
+ 		bool ok;
+ 	public:
+ 		explicit _UCXXEXPORT sentry(basic_istream<charT,traits>& os, bool noskipws = false){
+--- uClibc++-0.2.4/include/ostream.def_arg_class_enc~	2015-07-04 00:34:41.319470017 +0200
++++ uClibc++-0.2.4/include/ostream	2015-07-04 00:34:44.567467669 +0200
+@@ -298,7 +298,7 @@ namespace std {
+ #endif
+ #endif
+ 
+-	template <class charT,class traits = char_traits<charT> >
++	template <typename charT,typename traits>
+ 		class _UCXXEXPORT basic_ostream<charT,traits>::sentry
+ 	{
+ 		bool ok;
