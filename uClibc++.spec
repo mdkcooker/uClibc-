@@ -125,7 +125,7 @@ library. The library will focus on space savings as opposed to performance.
 %patch200 -p1 -b .bounds_fix~
 
 sed -e 's#/lib64#/%{_lib}#g' %{SOURCE1} > .config
-%ifarch %arm
+%ifarch %{arm}
 sed -i 's/UCLIBCXX_HAS_LONG_DOUBLE=y/UCLIBCXX_HAS_LONG_DOUBLE=n/g' .config
 %endif
 
