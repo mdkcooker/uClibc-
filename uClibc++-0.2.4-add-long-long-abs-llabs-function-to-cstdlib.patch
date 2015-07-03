@@ -1,0 +1,21 @@
+--- uClibc++-0.2.4/include/cstdlib.llabs~	2012-05-25 23:15:31.000000000 +0200
++++ uClibc++-0.2.4/include/cstdlib	2015-07-04 00:00:01.128413729 +0200
+@@ -37,6 +37,7 @@ namespace std{
+ 	using ::free;
+ 	using ::getenv;
+ 	using ::labs;
++	using ::llabs;
+ 	using ::ldiv;
+ 	using ::malloc;
+ 	using ::qsort;
+@@ -59,6 +60,10 @@ namespace std{
+ 		return labs(i);
+ 	}
+ 
++	inline long long abs(long long i){
++		return llabs(i);
++	}
++
+ 	inline ldiv_t div(long i, long j){
+ 		return ldiv(i, j);
+ 	}

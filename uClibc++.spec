@@ -34,6 +34,7 @@ Patch14:	uClibc++-0.2.4-fix-insert-on-vector-with-objects-without-default-constr
 Patch15:	uClibc++-0.2.4-make-istream-and-ostream-bool-operator-explicit-with-c++11-and-newer.patch
 Patch16:	uClibc++-0.2.4-add-numeric-limits-template-supporting-unsigned-long-long.patch
 Patch17:	uClibc++-0.2.4-add-support-for-unsigned-long-long-for-istream-read-operator.patch
+Patch18:	uClibc++-0.2.4-add-long-long-abs-llabs-function-to-cstdlib.patch
 
 # patches from https://github.com/kibergus/StandardCplusplus
 Patch101:	0001-Lacking-realization-of-std-terminate.-Call-terminate.patch
